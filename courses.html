@@ -7,12 +7,6 @@
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script>
-        const supabase = supabase.createClient(
-            "https://avldlzkjprmqxmbgbclm.supabase.co",
-            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
-        );
-    </script>
 
     <link rel="stylesheet" href="styles/style.css">
 </head>
@@ -37,76 +31,20 @@
 </section>
 
 <div class="container">
-
-    <div class="grid">
-
-        <a href="topic.html?category=stolpy" class="card link">
-            <h3>Столпы Ислама</h3>
-            <p>Шахада, намаз, пост, закят, хадж.</p>
-        </a>
-
-        <a href="topic.html?category=aqida" class="card link">
-            <h3>Вера (Акида)</h3>
-            <p>Единобожие, ангелы, книги, пророки, Судный день.</p>
-        </a>
-
-        <a href="topic.html?category=namaz" class="card link">
-            <h3>Намаз</h3>
-            <p>Описание намаза, условия, столпы, сунны, ошибки.</p>
-        </a>
-
-        <a href="topic.html?category=post" class="card link">
-            <h3>Пост</h3>
-            <p>Рамадан, добровольные посты, правила и исключения.</p>
-        </a>
-
-        <a href="topic.html?category=family" class="card link">
-            <h3>Семья</h3>
-            <p>Родители, дети, брак, воспитание, права супругов.</p>
-        </a>
-
-        <a href="topic.html?category=ethics" class="card link">
-            <h3>Этика и нравственность</h3>
-            <p>Терпение, благодарность, искренность, милосердие.</p>
-        </a>
-
-        <a href="topic.html?category=society" class="card link">
-            <h3>Общество</h3>
-            <p>Отношения между людьми, справедливость, помощь.</p>
-        </a>
-
-        <a href="topic.html?category=finance" class="card link">
-            <h3>Финансы и торговля</h3>
-            <p>Закят, торговля, сделки, запретное и дозволенное.</p>
-        </a>
-
-        <a href="topic.html?category=dua" class="card link">
-            <h3>Дуа</h3>
-            <p>Мольбы из Корана и Сунны по темам.</p>
-        </a>
-
-        <a href="topic.html?category=stories" class="card link">
-            <h3>Истории</h3>
-            <p>Истории пророков, сподвижников и праведных людей.</p>
-        </a>
-
-        <a href="topic.html?category=akhirah" class="card link">
-            <h3>Судный день</h3>
-            <p>Рай, Ад, знамения, события после смерти.</p>
-        </a>
-
-        <a href="topic.html?category=all" class="card link">
-            <h3>Все темы</h3>
-            <p>Полный список категорий.</p>
-        </a>
-
+    <div class="grid" id="coursesList">
+        <p>⏳ Загрузка тем...</p>
     </div>
-
 </div>
 
 <footer class="footer">
     © 2026 HIKMAH HUB — Ислам по темам.
 </footer>
+
+<script src="app.js"></script>
+<script>
+    // Загрузка при открытии страницы
+    document.addEventListener("DOMContentLoaded", loadCourses);
+</script>
 
 </body>
 </html>
