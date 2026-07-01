@@ -73,6 +73,8 @@
             border-radius: 4px;
             overflow-x: auto;
             color: #00ff00;
+            max-height: 400px;
+            overflow-y: auto;
         }
         .table-container {
             overflow-x: auto;
@@ -82,6 +84,7 @@
             width: 100%;
             border-collapse: collapse;
             color: #00ff00;
+            font-size: 12px;
         }
         th, td {
             border: 1px solid #00ff00;
@@ -104,107 +107,105 @@
     
     <div class="section">
         <h2>📡 Статус подключения</h2>
-        <div id="connectionStatus" class="status info">⏳ Проверка подключения...</div>
         <button onclick="testConnection()">🔄 Проверить подключение</button>
+        <button onclick="clearOutput('connectionStatus')">🗑️ Очистить</button>
+        <div id="connectionStatus" class="status info">⏳ Нажмите кнопку для проверки...</div>
     </div>
 
     <div class="section">
-        <h2>📊 Таблица: topics</h2>
+        <h2>📊 Таблица: topics (Темы)</h2>
         <button onclick="loadTopics()">📥 Загрузить темы</button>
         <button onclick="clearOutput('topicsOutput')">🗑️ Очистить</button>
-        <div id="topicsOutput" class="status info">⏳ Ожидание команды...</div>
+        <div id="topicsOutput" class="status info">⏳ Нажмите кнопку для загрузки...</div>
     </div>
 
     <div class="section">
         <h2>📖 Таблица: ayahs (Аяты)</h2>
         <button onclick="loadTable('ayahs')">📥 Загрузить аяты</button>
         <button onclick="clearOutput('ayahsOutput')">🗑️ Очистить</button>
-        <div id="ayahsOutput" class="status info">⏳ Ожидание команды...</div>
+        <div id="ayahsOutput" class="status info">⏳ Нажмите кнопку для загрузки...</div>
     </div>
 
     <div class="section">
         <h2>📚 Таблица: hadiths (Хадисы)</h2>
         <button onclick="loadTable('hadiths')">📥 Загрузить хадисы</button>
         <button onclick="clearOutput('hadithsOutput')">🗑️ Очистить</button>
-        <div id="hadithsOutput" class="status info">⏳ Ожидание команды...</div>
+        <div id="hadithsOutput" class="status info">⏳ Нажмите кнопку для загрузки...</div>
     </div>
 
     <div class="section">
         <h2>🙏 Таблица: dua (Дуа)</h2>
         <button onclick="loadTable('dua')">📥 Загрузить дуа</button>
         <button onclick="clearOutput('duaOutput')">🗑️ Очистить</button>
-        <div id="duaOutput" class="status info">⏳ Ожидание команды...</div>
+        <div id="duaOutput" class="status info">⏳ Нажмите кнопку для загрузки...</div>
     </div>
 
     <div class="section">
         <h2>✍️ Таблица: tafsir (Тафсир)</h2>
         <button onclick="loadTable('tafsir')">📥 Загрузить тафсир</button>
         <button onclick="clearOutput('tafsirOutput')">🗑️ Очистить</button>
-        <div id="tafsirOutput" class="status info">⏳ Ожидание команды...</div>
+        <div id="tafsirOutput" class="status info">⏳ Нажмите кнопку для загрузки...</div>
     </div>
 
     <div class="section">
         <h2>💡 Таблица: practical (Практика)</h2>
         <button onclick="loadTable('practical')">📥 Загрузить практику</button>
         <button onclick="clearOutput('practicalOutput')">🗑️ Очистить</button>
-        <div id="practicalOutput" class="status info">⏳ Ожидание команды...</div>
+        <div id="practicalOutput" class="status info">⏳ Нажмите кнопку для загрузки...</div>
     </div>
 
     <div class="section">
-        <h2>🔍 Информация о Supabase</h2>
-        <button onclick="showInfo()">ℹ️ Показать информацию</button>
-        <button onclick="clearOutput('infoOutput')">🗑️ Очистить</button>
-        <div id="infoOutput" class="status info">⏳ Ожидание команды...</div>
-    </div>
-
-    <div class="section">
-        <h2>📝 Консоль вывода</h2>
-        <button onclick="clearOutput('console')">🗑️ Очистить консоль</button>
+        <h2>📝 Логи (Консоль)</h2>
+        <button onclick="document.getElementById('console').textContent = ''">🗑️ Очистить логи</button>
         <pre id="console"></pre>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="app.js"></script>
 
 <script>
-// Инициализация Supabase
+// ✅ ПРЯМАЯ инициализация Supabase БЕЗ app.js
 const supabaseUrl = "https://avldlzkjprmqxmbgbclm.supabase.co";
 const supabaseKey = "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+console.log("✅ Supabase инициализирован");
+
 function log(message) {
     const consoleDiv = document.getElementById('console');
     const timestamp = new Date().toLocaleTimeString();
-    consoleDiv.textContent += `[${timestamp}] ${message}\n`;
+    const line = `[${timestamp}] ${message}\n`;
+    consoleDiv.textContent += line;
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    console.log(message);
 }
 
 function clearOutput(elementId) {
-    document.getElementById(elementId).innerHTML = "";
+    document.getElementById(elementId).textContent = '';
 }
 
 async function testConnection() {
     const status = document.getElementById('connectionStatus');
-    status.innerHTML = '⏳ Проверка подключения...';
+    status.className = 'status info';
+    status.textContent = '⏳ Проверка подключения...';
     log('🔄 Проверка подключения к Supabase...');
 
     try {
-        const { data, error } = await supabase.from('topics').select('count(*)');
+        const { data, error } = await supabase.from('topics').select('id').limit(1);
         
         if (error) {
             status.className = 'status error';
-            status.innerHTML = `❌ ОШИБКА: ${error.message}`;
+            status.textContent = `❌ ОШИБКА: ${error.message}`;
             log(`❌ Ошибка подключения: ${error.message}`);
             return;
         }
 
         status.className = 'status success';
-        status.innerHTML = '✅ Подключение успешно!';
-        log('✅ Подключение успешно установлено!');
+        status.textContent = '✅ Подключение успешно! Supabase отвечает.';
+        log('✅ Подключение к Supabase успешно!');
     } catch (err) {
         status.className = 'status error';
-        status.innerHTML = `❌ КРИТИЧЕСКАЯ ОШИБКА: ${err.message}`;
+        status.textContent = `❌ КРИТИЧЕСКАЯ ОШИБКА: ${err.message}`;
         log(`❌ Критическая ошибка: ${err.message}`);
     }
 }
@@ -212,8 +213,8 @@ async function testConnection() {
 async function loadTopics() {
     const output = document.getElementById('topicsOutput');
     output.className = 'status info';
-    output.innerHTML = '⏳ Загрузка тем...';
-    log('📥 Загрузка тем...');
+    output.textContent = '⏳ Загрузка тем...';
+    log('📥 Загрузка тем из таблицы topics...');
 
     try {
         const { data, error } = await supabase
@@ -223,20 +224,20 @@ async function loadTopics() {
 
         if (error) {
             output.className = 'status error';
-            output.innerHTML = `❌ Ошибка: ${error.message}`;
+            output.textContent = `❌ Ошибка: ${error.message}`;
             log(`❌ Ошибка загрузки тем: ${error.message}`);
             return;
         }
 
         if (!data || data.length === 0) {
             output.className = 'status warning';
-            output.innerHTML = '⚠️ Таблица "topics" пуста или не существует!';
+            output.textContent = '⚠️ Таблица "topics" пуста!';
             log('⚠️ В таблице topics нет данных');
             return;
         }
 
         output.className = 'status success';
-        output.innerHTML = `✅ Загружено ${data.length} тем<div class="table-container">
+        const html = `✅ Загружено ${data.length} тем<div class="table-container">
             <table>
                 <tr>
                     <th>ID</th>
@@ -245,17 +246,18 @@ async function loadTopics() {
                 </tr>
                 ${data.map(row => `
                     <tr>
-                        <td>${row.id}</td>
+                        <td>${row.id || '-'}</td>
                         <td>${row.title || '-'}</td>
-                        <td>${(row.description || '-').substring(0, 50)}...</td>
+                        <td>${(row.description || '-').substring(0, 50)}</td>
                     </tr>
                 `).join('')}
             </table>
         </div>`;
-        log(`✅ Загружено ${data.length} тем`);
+        output.innerHTML = html;
+        log(`✅ Загружено ${data.length} тем успешно!`);
     } catch (err) {
         output.className = 'status error';
-        output.innerHTML = `❌ Критическая ошибка: ${err.message}`;
+        output.textContent = `❌ Критическая ошибка: ${err.message}`;
         log(`❌ Критическая ошибка: ${err.message}`);
     }
 }
@@ -263,82 +265,55 @@ async function loadTopics() {
 async function loadTable(tableName) {
     const output = document.getElementById(tableName + 'Output');
     output.className = 'status info';
-    output.innerHTML = `⏳ Загрузка из ${tableName}...`;
+    output.textContent = `⏳ Загрузка из ${tableName}...`;
     log(`📥 Загрузка из таблицы ${tableName}...`);
 
     try {
         const { data, error } = await supabase
             .from(tableName)
             .select('*')
-            .limit(20);
+            .limit(50);
 
         if (error) {
             output.className = 'status error';
-            output.innerHTML = `❌ Ошибка: ${error.message}`;
+            output.textContent = `❌ Ошибка: ${error.message}`;
             log(`❌ Ошибка загрузки ${tableName}: ${error.message}`);
             return;
         }
 
         if (!data || data.length === 0) {
             output.className = 'status warning';
-            output.innerHTML = `⚠️ Таблица "${tableName}" пуста или не существует!`;
+            output.textContent = `⚠️ Таблица "${tableName}" пуста!`;
             log(`⚠️ В таблице ${tableName} нет данных`);
             return;
         }
 
         output.className = 'status success';
         const headers = Object.keys(data[0]);
-        output.innerHTML = `✅ Загружено ${data.length} записей<div class="table-container">
+        const html = `✅ Загружено ${data.length} записей<div class="table-container">
             <table>
                 <tr>
                     ${headers.map(h => `<th>${h}</th>`).join('')}
                 </tr>
-                ${data.map(row => `
+                ${data.slice(0, 10).map(row => `
                     <tr>
                         ${headers.map(h => `<td>${(row[h] || '-').toString().substring(0, 30)}</td>`).join('')}
                     </tr>
                 `).join('')}
             </table>
         </div>`;
-        log(`✅ Загружено ${data.length} записей из ${tableName}`);
+        output.innerHTML = html;
+        log(`✅ Загружено ${data.length} записей из ${tableName}!`);
     } catch (err) {
         output.className = 'status error';
-        output.innerHTML = `❌ Критическая ошибка: ${err.message}`;
+        output.textContent = `❌ Критическая ошибка: ${err.message}`;
         log(`❌ Критическая ошибка: ${err.message}`);
-    }
-}
-
-async function showInfo() {
-    const output = document.getElementById('infoOutput');
-    output.className = 'status info';
-    log('ℹ️ Получение информации о Supabase...');
-
-    try {
-        const user = await supabase.auth.getUser();
-        
-        output.innerHTML = `
-            <div>
-                <pre>
-Supabase URL: ${supabaseUrl}
-API Key: ${supabaseKey.substring(0, 20)}...
-
-Текущий пользователь: ${user.data.user ? user.data.user.email : 'Не авторизован'}
-
-✅ Все параметры Supabase загружены успешно!
-                </pre>
-            </div>
-        `;
-        log('ℹ️ Информация о Supabase получена');
-    } catch (err) {
-        output.className = 'status error';
-        output.innerHTML = `❌ Ошибка: ${err.message}`;
-        log(`❌ Ошибка: ${err.message}`);
     }
 }
 
 // Автоматическая проверка при загрузке
 window.addEventListener('load', () => {
-    log('🚀 Диагностика Supabase запущена');
+    log('🚀 Диагностика запущена');
     testConnection();
 });
 </script>
