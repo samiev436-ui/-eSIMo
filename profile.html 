@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль — HIKMAH HUB</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = supabase.createClient(
+            "https://avldlzkjprmqxmbgbclm.supabase.co",
+            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
+        );
+    </script>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="app.js"></script>
+</head>
+
+<body class="dark">
+
+<header class="header">
+    <div class="logo">HIKMAH HUB</div>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="courses.html">Темы</a>
+        <a href="about.html">О проекте</a>
+        <a href="contact.html">Контакты</a>
+        <a href="login.html">Вход</a>
+        <a href="profile.html" class="active">Профиль</a>
+    </nav>
+</header>
+
+<section class="hero small">
+    <h1>Личный кабинет</h1>
+    <p>Ваши данные и настройки</p>
+</section>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Ваш профиль</h2>
+
+        <div class="profile-box">
+            <img src="https://i.imgur.com/7kQEsHU.png" class="avatar" alt="avatar">
+
+            <div>
+                <p><strong>Email:</strong> <span id="userEmail">Загрузка...</span></p>
+                <p><strong>Статус:</strong> Пользователь</p>
+            </div>
+        </div>
+
+        <button onclick="logoutUser()" style="margin-top:20px;">Выйти из аккаунта</button>
+    </div>
+
+    <div class="card">
+        <h2>Ваш прогресс</h2>
+        <p>Избранное — скоро</p>
+        <p>Закладки — скоро</p>
+        <p>История чтения — скоро</p>
+        <p>Планы обучения — скоро</p>
+    </div>
+
+</div>
+
+<footer class="footer">
+    © 2026 HIKMAH HUB — Ислам по темам.
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    document.getElementById("userEmail").textContent = user.email;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тема — HIKMAH HUB</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = supabase.createClient(
+            "https://avldlzkjprmqxmbgbclm.supabase.co",
+            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
+        );
+    </script>
+
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body class="dark">
+
+<header class="header">
+    <div class="logo">HIKMAH HUB</div>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="courses.html">Темы</a>
+        <a href="about.html">О проекте</a>
+        <a href="contact.html">Контакты</a>
+        <a href="login.html">Вход</a>
+        <a href="profile.html">Профиль</a>
+    </nav>
+</header>
+
+<section class="hero small">
+    <h1 id="topicTitle">Загрузка темы...</h1>
+    <p id="topicDescription">Пожалуйста, подождите...</p>
+</section>
+
+<div class="container">
+
+    <!-- Аяты -->
+    <div class="card">
+        <h2>Аяты Корана</h2>
+        <div id="ayahList" class="block-list">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Хадисы -->
+    <div class="card">
+        <h2>Хадисы</h2>
+        <div id="hadithList" class="block-list">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Дуа -->
+    <div class="card">
+        <h2>Дуа</h2>
+        <div id="duaList" class="block-list">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Тафсир -->
+    <div class="card">
+        <h2>Тафсир</h2>
+        <div id="tafsirList" class="block-list">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Практические выводы -->
+    <div class="card">
+        <h2>Практические выводы</h2>
+        <div id="practicalList" class="block-list">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Связанные темы -->
+    <div class="card">
+        <h2>Связанные темы</h2>
+        <div id="relatedList" class="grid">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    © 2026 HIKMAH HUB — Ислам по темам.
+</footer>
+
+<script>
+async function loadTopic() {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category");
+
+    if (!category) {
+        document.getElementById("topicTitle").textContent = "Тема не найдена";
+        return;
+    }
+
+    // Загружаем тему из Supabase
+    const { data: topic } = await supabase
+        .from("topics")
+        .select("*")
+        .eq("id", category)
+        .single();
+
+    if (!topic) {
+        document.getElementById("topicTitle").textContent = "Тема не найдена";
+        return;
+    }
+
+    document.getElementById("topicTitle").textContent = topic.title;
+    document.getElementById("topicDescription").textContent = topic.description;
+
+    // Загружаем аяты
+    loadSection("ayahs", "ayahList");
+    loadSection("hadiths", "hadithList");
+    loadSection("dua", "duaList");
+    loadSection("tafsir", "tafsirList");
+    loadSection("practical", "practicalList");
+    loadRelatedTopics(category);
+}
+
+async function loadSection(table, elementId) {
+    const { data } = await supabase.from(table).select("*");
+
+    const container = document.getElementById(elementId);
+    container.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        container.innerHTML = "<p>Нет данных.</p>";
+        return;
+    }
+
+    data.forEach(item => {
+        const block = document.createElement("div");
+        block.className = "block";
+        block.innerHTML = `
+            <h4>${item.title || "Без названия"}</h4>
+            <p>${item.text || ""}</p>
+        `;
+        container.appendChild(block);
+    });
+}
+
+async function loadRelatedTopics(category) {
+    const { data } = await supabase
+        .from("topics")
+        .select("*")
+        .neq("id", category);
+
+    const container = document.getElementById("relatedList");
+    container.innerHTML = "";
+
+    data.forEach(item => {
+        const link = document.createElement("a");
+        link.href = "topic.html?category=" + item.id;
+        link.className = "card link";
+        link.innerHTML = `
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+        `;
+        container.appendChild(link);
+    });
+}
+
+loadTopic();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О проекте — HIKMAH HUB</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = supabase.createClient(
+            "https://avldlzkjprmqxmbgbclm.supabase.co",
+            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
+        );
+    </script>
+
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body class="dark">
+
+<header class="header">
+    <div class="logo">HIKMAH HUB</div>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="courses.html">Темы</a>
+        <a href="about.html" class="active">О проекте</a>
+        <a href="contact.html">Контакты</a>
+        <a href="login.html">Вход</a>
+        <a href="profile.html">Профиль</a>
+    </nav>
+</header>
+
+<section class="hero small">
+    <h1>О проекте HIKMAH HUB</h1>
+    <p>Современная исламская образовательная платформа</p>
+</section>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Главная идея</h2>
+        <p>
+            HIKMAH HUB — это современная исламская энциклопедия, построенная по тематическому принципу.
+            Пользователь открывает любую тему и получает все связанные материалы в одном месте:
+            аяты Корана, переводы, тафсиры, хадисы, дуа, практические выводы и связанные темы.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Цель проекта</h2>
+        <p>
+            Человек не должен искать информацию в десятках книг и сайтов.  
+            В одном месте собраны все материалы, необходимые для изучения Ислама по темам —
+            от основ веры до этики, семьи, общества, торговли и Судного дня.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Структура знаний</h2>
+        <p>
+            Платформа построена как дерево знаний.  
+            Каждая тема раскрывается через связанные материалы:
+        </p>
+
+        <ul style="margin-top:15px; opacity:0.85;">
+            <li>аяты Корана;</li>
+            <li>арабский текст и перевод;</li>
+            <li>тафсир;</li>
+            <li>хадисы;</li>
+            <li>дуа;</li>
+            <li>практические выводы;</li>
+            <li>связанные темы.</li>
+        </ul>
+
+        <p style="margin-top:10px;">
+            Один аят может относиться к нескольким темам — без дублирования в базе данных.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Основные разделы</h2>
+        <p>Платформа включает десятки категорий:</p>
+
+        <div class="grid" style="margin-top:20px;">
+            <div class="card link"><h3>Столпы Ислама</h3></div>
+            <div class="card link"><h3>Вера</h3></div>
+            <div class="card link"><h3>Намаз</h3></div>
+            <div class="card link"><h3>Пост</h3></div>
+            <div class="card link"><h3>Семья</h3></div>
+            <div class="card link"><h3>Этика</h3></div>
+            <div class="card link"><h3>Общество</h3></div>
+            <div class="card link"><h3>Финансы</h3></div>
+            <div class="card link"><h3>Дуа</h3></div>
+            <div class="card link"><h3>Истории</h3></div>
+            <div class="card link"><h3>Судный день</h3></div>
+            <div class="card link"><h3>Рай и Ад</h3></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Учебная система</h2>
+        <p>
+            HIKMAH HUB включает учебные планы:
+        </p>
+
+        <ul style="margin-top:15px; opacity:0.85;">
+            <li>30‑дневный курс;</li>
+            <li>90‑дневный курс;</li>
+            <li>годовой курс;</li>
+            <li>основы Ислама;</li>
+            <li>Коран по темам.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Искусственный интеллект</h2>
+        <p>
+            В будущем платформа получит встроенного помощника, который отвечает только на основе материалов HIKMAH HUB.
+            Например:
+        </p>
+
+        <blockquote style="margin-top:15px; opacity:0.85;">
+            «Что Коран говорит о терпении?»  
+            «Покажи хадисы о родителях.»
+        </blockquote>
+
+        <p style="margin-top:10px;">
+            Ответы будут сопровождаться ссылками на соответствующие аяты, хадисы и тафсиры.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Мультиязычность</h2>
+        <p>
+            Архитектура поддерживает несколько языков:
+            русский, арабский, английский, узбекский и таджикский.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Офлайн‑режим</h2>
+        <p>
+            Пользователь сможет заранее скачать материалы и читать их без подключения к интернету.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Долгосрочное развитие</h2>
+        <p>
+            Архитектура рассчитана на постепенное расширение базы знаний без полной переработки системы.
+            Новые материалы и функции можно добавлять бесконечно.
+        </p>
+    </div>
+
+</div>
+
+<footer class="footer">
+    © 2026 HIKMAH HUB — Ислам по темам.
+</footer>
+
+</body>
+</html>

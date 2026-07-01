@@ -1,0 +1,215 @@
+/* ====== БАЗА ====== */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    background: #0f0f0f;
+    color: #e5e5e5;
+    line-height: 1.6;
+}
+
+.dark {
+    background: #0f0f0f;
+    color: #e5e5e5;
+}
+
+a {
+    color: #e5e5e5;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+/* ====== HEADER ====== */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: #111;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav a {
+    margin-left: 25px;
+    font-size: 15px;
+    opacity: 0.85;
+    transition: 0.2s;
+}
+
+.nav a:hover,
+.nav .active {
+    opacity: 1;
+    color: #fff;
+}
+
+/* ====== HERO ====== */
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: #141414;
+    border-bottom: 1px solid #222;
+}
+
+.hero.small {
+    padding: 50px 20px;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    opacity: 0.85;
+}
+
+.hero-buttons {
+    margin-top: 25px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #333;
+}
+
+.btn.secondary {
+    background: transparent;
+    border: 1px solid #444;
+}
+
+/* ====== КОНТЕЙНЕР ====== */
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* ====== КАРТОЧКИ ====== */
+
+.card {
+    background: #141414;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #222;
+    margin-bottom: 25px;
+    transition: 0.2s;
+}
+
+.card:hover {
+    border-color: #444;
+}
+
+.card.link {
+    cursor: pointer;
+}
+
+.card.link:hover {
+    background: #1a1a1a;
+}
+
+/* ====== СЕТКА ====== */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+/* ====== БЛОКИ ВНУТРИ ТЕМЫ ====== */
+
+.block-list .block {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #222;
+    margin-bottom: 15px;
+}
+
+.block h4 {
+    margin-bottom: 8px;
+}
+
+/* ====== ФОРМЫ ====== */
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #0f0f0f;
+    color: #fff;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+form button:hover {
+    background: #333;
+}
+
+/* ====== ПРОФИЛЬ ====== */
+
+.profile-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #333;
+}
+
+/* ====== FOOTER ====== */
+
+.footer {
+    text-align: center;
+    padding: 30px;
+    background: #111;
+    border-top: 1px solid #222;
+    margin-top: 40px;
+    font-size: 14px;
+    opacity: 0.7;
+}

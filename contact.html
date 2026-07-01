@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты — HIKMAH HUB</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = supabase.createClient(
+            "https://avldlzkjprmqxmbgbclm.supabase.co",
+            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
+        );
+    </script>
+
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body class="dark">
+
+<header class="header">
+    <div class="logo">HIKMAH HUB</div>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="courses.html">Темы</a>
+        <a href="about.html">О проекте</a>
+        <a href="contact.html" class="active">Контакты</a>
+        <a href="login.html">Вход</a>
+        <a href="profile.html">Профиль</a>
+    </nav>
+</header>
+
+<section class="hero small">
+    <h1>Контакты</h1>
+    <p>Свяжитесь с нами по любому вопросу</p>
+</section>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Поддержка</h2>
+        <p>Если у вас есть вопросы, предложения или замечания — мы всегда готовы помочь.</p>
+
+        <div style="margin-top:20px;">
+            <p><strong>Email:</strong> support@hikmah-hub.com</p>
+            <p><strong>Telegram:</strong> @hikmah_support</p>
+            <p><strong>Instagram:</strong> @hikmah.hub</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Обратная связь</h2>
+        <p>Вы можете отправить нам сообщение прямо через форму ниже.</p>
+
+        <form id="contactForm" style="margin-top:20px;">
+            <label>Ваш email</label>
+            <input type="email" id="contactEmail" placeholder="Введите email" required>
+
+            <label>Сообщение</label>
+            <input type="text" id="contactMessage" placeholder="Введите сообщение" required>
+
+            <button type="submit">Отправить</button>
+        </form>
+
+        <p id="contactStatus" style="margin-top:15px; opacity:0.8;"></p>
+    </div>
+
+    <div class="card">
+        <h2>Адрес</h2>
+        <p>Санкт‑Петербург, Россия</p>
+    </div>
+
+</div>
+
+<footer class="footer">
+    © 2026 HIKMAH HUB — Ислам по темам.
+</footer>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("contactEmail").value;
+    const message = document.getElementById("contactMessage").value;
+
+    // Сохранение сообщения в Supabase
+    const { error } = await supabase
+        .from("messages")
+        .insert([{ email, message }]);
+
+    if (error) {
+        document.getElementById("contactStatus").textContent =
+            "Ошибка отправки: " + error.message;
+        return;
+    }
+
+    document.getElementById("contactStatus").textContent =
+        "Сообщение отправлено! Мы ответим вам в ближайшее время.";
+
+    document.getElementById("contactForm").reset();
+});
+</script>
+
+</body>
+</html>

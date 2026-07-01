@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация — HIKMAH HUB</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = supabase.createClient(
+            "https://avldlzkjprmqxmbgbclm.supabase.co",
+            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
+        );
+    </script>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="app.js"></script>
+</head>
+
+<body class="dark">
+
+<header class="header">
+    <div class="logo">HIKMAH HUB</div>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="courses.html">Темы</a>
+        <a href="about.html">О проекте</a>
+        <a href="contact.html">Контакты</a>
+        <a href="login.html">Вход</a>
+        <a href="profile.html">Профиль</a>
+    </nav>
+</header>
+
+<section class="hero small">
+    <h1>Создать аккаунт</h1>
+    <p>Регистрация занимает меньше минуты</p>
+</section>
+
+<div class="container">
+
+    <div class="card" style="max-width:450px; margin:auto;">
+        <form id="registerForm">
+            <label>Email</label>
+            <input type="email" id="regEmail" placeholder="Введите email" required>
+
+            <label>Пароль</label>
+            <input type="password" id="regPassword" placeholder="Придумайте пароль" required>
+
+            <button type="submit">Зарегистрироваться</button>
+
+            <p style="margin-top:15px; text-align:center;">
+                Уже есть аккаунт? <a href="login.html">Войти</a>
+            </p>
+        </form>
+    </div>
+
+</div>
+
+<footer class="footer">
+    © 2026 HIKMAH HUB — Ислам по темам.
+</footer>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+
+    const result = await registerUser(email, password);
+
+    if (result.error) {
+        alert("Ошибка: " + result.error.message);
+        return;
+    }
+
+    alert("Регистрация успешна!");
+    window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>

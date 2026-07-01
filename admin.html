@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель — HIKMAH HUB</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = supabase.createClient(
+            "https://avldlzkjprmqxmbgbclm.supabase.co",
+            "sb_publishable_CQHNtBi_q4PhwAIMkJ-Rxw_DicNz5Yr"
+        );
+    </script>
+
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body class="dark">
+
+<header class="header">
+    <div class="logo">ADMIN — HIKMAH HUB</div>
+    <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="courses.html">Темы</a>
+        <a href="profile.html">Профиль</a>
+        <a href="#" onclick="logoutUser()">Выход</a>
+    </nav>
+</header>
+
+<section class="hero small">
+    <h1>Админ-панель</h1>
+    <p>Управление темами, аятами, хадисами, дуа и тафсирами</p>
+</section>
+
+<div class="container">
+
+    <!-- Добавление темы -->
+    <div class="card">
+        <h2>Добавить тему</h2>
+
+        <form id="addTopicForm">
+            <label>Название темы</label>
+            <input type="text" id="topicTitle" required>
+
+            <label>Описание темы</label>
+            <input type="text" id="topicDescription" required>
+
+            <button type="submit">Добавить тему</button>
+        </form>
+    </div>
+
+    <!-- Список тем -->
+    <div class="card">
+        <h2>Список тем</h2>
+        <div id="topicsList" class="block-list">
+            <p class="loading">Загрузка...</p>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    © 2026 HIKMAH HUB — Админ-панель.
+</footer>
+
+<script>
+/* ============================
+   Проверка авторизации
+============================ */
+
+async function checkAdmin() {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) {
+        window.location.href = "login.html";
+        return;
+    }
+}
+
+checkAdmin();
+
+/* ============================
+   Добавление темы
+============================ */
+
+document.getElementById("addTopicForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("topicTitle").value;
+    const description = document.getElementById("topicDescription").value;
+
+    const { error } = await supabase
+        .from("topics")
+        .insert([{ title, description }]);
+
+    if (error) {
+        alert("Ошибка: " + error.message);
+        return;
+    }
+
+    alert("Тема добавлена!");
+    loadTopics();
+});
+
+/* ============================
+   Загрузка списка тем
+============================ */
+
+async function loadTopics() {
+    const container = document.getElementById("topicsList");
+
+    const { data, error } = await supabase
+        .from("topics")
+        .select("*")
+        .order("id", { ascending: true });
+
+    if (error) {
+        container.innerHTML = "<p>Ошибка загрузки.</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach(topic => {
+        const block = document.createElement("div");
+        block.className = "block";
+        block.innerHTML = `
+            <h4>${topic.title}</h4>
+            <p>${topic.description}</p>
+            <button onclick="deleteTopic(${topic.id})" style="margin-top:10px;">Удалить</button>
+        `;
+        container.appendChild(block);
+    });
+}
+
+loadTopics();
+
+/* ============================
+   Удаление темы
+============================ */
+
+async function deleteTopic(id) {
+    if (!confirm("Удалить тему?")) return;
+
+    const { error } = await supabase
+        .from("topics")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert("Ошибка: " + error.message);
+        return;
+    }
+
+    alert("Тема удалена!");
+    loadTopics();
+}
+
+/* ============================
+   Выход
+============================ */
+
+async function logoutUser() {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
