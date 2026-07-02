@@ -436,3 +436,62 @@ async function autoImportTafsir() {
   await autoImportDua();
   await autoImportTafsir();
 })();
+async function loadTopicFull(topicId) {
+    // Загружаем саму тему
+    const { data: topic } = await supabase
+        .from("topics")
+        .select("*")
+        .eq("id", topicId)
+        .single();
+
+    // Аяты
+    const { data: ayahLinks } = await supabase
+        .from("topic_ayahs")
+        .select("ayahs(*)")
+        .eq("topic_id", topicId);
+
+    // Хадисы
+    const { data: hadithLinks } = await supabase
+        .from("topic_hadiths")
+        .select("hadiths(*)")
+        .eq("topic_id", topicId);
+
+    // Дуа
+    const { data: duaLinks } = await supabase
+        .from("topic_dua")
+        .select("dua(*)")
+        .eq("topic_id", topicId);
+
+    // Тафсир
+    const { data: tafsirLinks } = await supabase
+        .from("topic_tafsir")
+        .select("tafsir(*)")
+        .eq("topic_id", topicId);
+
+    return {
+        topic,
+        ayahs: ayahLinks?.map(x => x.ayahs) || [],
+        hadiths: hadithLinks?.map(x => x.hadiths) || [],
+        duas: duaLinks?.map(x => x.dua) || [],
+        tafsir: tafsirLinks?.map(x => x.tafsir) || []
+    };
+}
+const full = await loadTopicFull(topicId);
+
+document.querySelector("#title").innerText = full.topic.title;
+
+full.ayahs.forEach(a => {
+    addAyahBlock(a.arabic, a.translation, a.audio_url);
+});
+
+full.hadiths.forEach(h => {
+    addHadithBlock(h.arabic, h.translation);
+});
+
+full.duas.forEach(d => {
+    addDuaBlock(d.arabic, d.translation);
+});
+
+full.tafsir.forEach(t => {
+    addTafsirBlock(t.text, t.source);
+});
