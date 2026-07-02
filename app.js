@@ -272,5 +272,52 @@ document.addEventListener("DOMContentLoaded", () => {
     // Загружаем тему, если находимся на page topic.html
     if (window.location.pathname.includes("topic.html")) {
         loadTopicPage();
+    async function autoImportAyahs() {
+    // Проверяем, есть ли аяты в базе
+    const { data: existingAyahs, error: checkError } = await supabase
+        .from("ayahs")
+        .select("id")
+        .limit(1);
+
+    if (checkError) {
+        console.error("Ошибка проверки таблицы:", checkError);
+        return;
     }
-});
+
+    // Если таблица НЕ пустая — выходим
+    if (existingAyahs && existingAyahs.length > 0) {
+        console.log("Аяты уже загружены — импорт не требуется.");
+        return;
+    }
+
+    console.log("Начинаю автоматический импорт всех аятов...");
+
+    // Загружаем Коран из API
+    const response = await fetch("https://api.alquran.cloud/v1/quran/ar.alafasy");
+    const quran = await response.json();
+
+    // Импортируем аяты по суре
+    for (const surah of quran.data.surahs) {
+        for (const ayah of surah.ayahs) {
+            const { error: insertError } = await supabase
+                .from("ayahs")
+                .insert({
+                    surah: surah.number,
+                    ayah: ayah.numberInSurah,
+                    arabic: ayah.text,
+                    translation: null,
+                    transcription: null,
+                    audio_url: ayah.audio
+                });
+
+            if (insertError) {
+                console.error("Ошибка вставки аята:", insertError);
+            }
+        }
+    }
+
+    console.log("Импорт завершён!");
+}
+
+// Запускаем импорт автоматически
+autoImportAyahs();
